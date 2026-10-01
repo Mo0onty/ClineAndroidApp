@@ -1,0 +1,179 @@
+name: Cline Android Release
+
+# Workflow for creating GitHub releases with signed APKs
+# Triggers on tag push or manual workflow dispatch
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+      flavor:
+        description: 'Product flavor'
+        required: true
+        default: 'standard'
+        type: choice
+        options:
+          - standard
+          - low
+
+# Environment variables
+env:
+  JAVA_VERSION: '17'
+  ANDROID_SDK_VERSION: '37'
+  ANDROID_NDK_VERSION: '26'
+
+jobs:
+  # Build Release APK
+  build-release:
+    name: Build Release APK
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          sdk-version: ${{ env.ANDROID_SDK_VERSION }}
+          ndk-version: ${{ env.ANDROID_NDK_VERSION }}
+
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Create keystore directory
+        run: mkdir -p keystore
+
+      - name: Decode keystore from base64
+        run: |
+          echo "${{ secrets.CLINE_KEYSTORE_BASE64 }}" | base64 --decode > keystore/cline-release.keystore
+
+      - name: Build release APK (Standard)
+        if: ${{ inputs.flavor == 'standard' || github.event_name == 'push' }}
+        run: ./gradlew :app:assembleStandardRelease
+        env:
+          CLINE_KEYSTORE: keystore/cline-release.keystore
+          CLINE_KEYSTORE_PASSWORD: ${{ secrets.CLINE_KEYSTORE_PASSWORD }}
+          CLINE_KEY_ALIAS: ${{ secrets.CLINE_KEY_ALIAS }}
+          CLINE_KEY_PASSWORD: ${{ secrets.CLINE_KEY_PASSWORD }}
+
+      - name: Build release APK (Low)
+        if: ${{ inputs.flavor == 'low' }}
+        run: ./gradlew :app:assembleLowRelease
+        env:
+          CLINE_KEYSTORE: keystore/cline-release.keystore
+          CLINE_KEYSTORE_PASSWORD: ${{ secrets.CLINE_KEYSTORE_PASSWORD }}
+          CLINE_KEY_ALIAS: ${{ secrets.CLINE_KEY_ALIAS }}
+          CLINE_KEY_PASSWORD: ${{ secrets.CLINE_KEY_PASSWORD }}
+
+      - name: Rename APK files
+        run: |
+          # Find and rename APK files for better release naming
+          if [ -f app/build/outputs/apk/standard/release/app-standard-release.apk ]; then
+            mv app/build/outputs/apk/standard/release/app-standard-release.apk app/build/outputs/apk/standard/release/ClineAndroid-${{ inputs.version || github.ref_name }}-standard-release.apk
+          fi
+          if [ -f app/build/outputs/apk/low/release/app-low-release.apk ]; then
+            mv app/build/outputs/apk/low/release/app-low-release.apk app/build/outputs/apk/low/release/ClineAndroid-${{ inputs.version || github.ref_name }}-low-release.apk
+          fi
+
+      - name: Upload release APKs as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cline-android-release-apks
+          path: |
+            app/build/outputs/apk/standard/release/*.apk
+            app/build/outputs/apk/low/release/*.apk
+          retention-days: 30
+
+      - name: Get release notes
+        id: release-notes
+        run: |
+          # Extract release notes from CHANGELOG.md or use default
+          if [ -f CHANGELOG.md ]; then
+            NOTES=$(awk '/^## ${{ inputs.version || github.ref_name }}/{flag=1; next} /^## /{flag=0} flag' CHANGELOG.md)
+            if [ -z "$NOTES" ]; then
+              NOTES="Automated release ${{ inputs.version || github.ref_name }}"
+            fi
+          else
+            NOTES="Automated release ${{ inputs.version || github.ref_name }}\n\nBuilt from commit: ${{ github.sha }}"
+          fi
+          echo "notes<<EOF" >> $GITHUB_OUTPUT
+          echo "$NOTES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.version || github.ref_name }}
+          name: Cline Android ${{ inputs.version || github.ref_name }}
+          body: ${{ steps.release-notes.outputs.notes }}
+          files: |
+            app/build/outputs/apk/standard/release/*.apk
+            app/build/outputs/apk/low/release/*.apk
+          draft: false
+          prerelease: false
+          fail_on_unmatched_files: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Cleanup old artifacts
+  cleanup:
+    name: Cleanup Old Artifacts
+    needs: build-release
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Delete old artifacts
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Delete artifacts older than 30 days
+            const { data: artifacts } = await github.rest.actions.listArtifactsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            
+            const now = new Date();
+            const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            
+            for (const artifact of artifacts.artifacts) {
+              const createdAt = new Date(artifact.created_at);
+              if (createdAt < thirtyDaysAgo && artifact.name !== 'cline-android-release-apks') {
+                try {
+                  await github.rest.actions.deleteArtifact({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    artifact_id: artifact.id,
+                  });
+                  console.log(`Deleted artifact: ${artifact.name} (ID: ${artifact.id})`);
+                } catch (error) {
+                  console.log(`Failed to delete artifact ${artifact.id}: ${error.message}`);
+                }
+              }
+            }
