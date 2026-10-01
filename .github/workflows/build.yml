@@ -1,0 +1,445 @@
+name: Cline Android Build
+
+# CI/CD Pipeline for Cline Android App
+# Triggers on push, pull request, and manual workflow dispatch
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+      - release/*
+    tags:
+      - v*
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Build target'
+        required: true
+        default: 'apk'
+        type: choice
+        options:
+          - all
+          - rootfs
+          - runtime
+          - assets
+          - apk
+      flavor:
+        description: 'Product flavor'
+        required: true
+        default: 'standard'
+        type: choice
+        options:
+          - standard
+          - low
+      build_type:
+        description: 'Build type'
+        required: true
+        default: 'debug'
+        type: choice
+        options:
+          - debug
+          - release
+
+# Environment variables
+env:
+  JAVA_VERSION: '17'
+  ANDROID_SDK_VERSION: '37'
+  ANDROID_NDK_VERSION: '26'
+  GRADLE_VERSION: '9.3.1'
+  AGP_VERSION: '9.1.1'
+
+jobs:
+  # Setup Job - Prepare environment
+  setup:
+    name: Setup Environment
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-key.outputs.value }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Generate cache key
+        id: cache-key
+        run: |
+          # Generate a unique cache key based on build files
+          KEY=$(date +%Y%m%d-%H%M%S)
+          echo "cache-key=$KEY" >> $GITHUB_OUTPUT
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ steps.cache-key.outputs.cache-key }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+  # Build Job - Compile and test
+  build:
+    name: Build and Test
+    needs: setup
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          sdk-version: ${{ env.ANDROID_SDK_VERSION }}
+          ndk-version: ${{ env.ANDROID_NDK_VERSION }}
+
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Run unit tests
+        run: ./gradlew :app:testStandardDebugUnitTest
+
+      - name: Run lint
+        run: ./gradlew :app:lintStandardDebug
+
+      - name: Build debug APK
+        run: ./gradlew :app:assembleStandardDebug
+
+      - name: Upload debug APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cline-android-debug
+          path: app/build/outputs/apk/standard/debug/*.apk
+          retention-days: 7
+
+  # Runtime Assets Job - Build rootfs and runtime
+  runtime-assets:
+    name: Build Runtime Assets
+    needs: setup
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # Install any Python dependencies here
+
+      - name: Build rootfs (if requested)
+        if: ${{ inputs.target == 'rootfs' || inputs.target == 'all' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y debootstrap
+          python tools/build-rootfs.py
+
+      - name: Build Cline runtime (if requested)
+        if: ${{ inputs.target == 'runtime' || inputs.target == 'all' }}
+        run: python tools/build-cline-runtime.py
+
+      - name: Prepare assets (if requested)
+        if: ${{ inputs.target == 'assets' || inputs.target == 'all' || inputs.target == 'apk' }}
+        run: python tools/prepare-assets.py
+
+      - name: Upload assets artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cline-android-assets
+          path: |
+            app/src/main/assets/*
+            app/build/generated/standardAssets/**
+          retention-days: 7
+
+  # Release Build Job - Build signed release APK
+  release-build:
+    name: Release Build
+    needs: [build, runtime-assets]
+    runs-on: ubuntu-latest
+    if: ${{ inputs.build_type == 'release' }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          sdk-version: ${{ env.ANDROID_SDK_VERSION }}
+          ndk-version: ${{ env.ANDROID_NDK_VERSION }}
+
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Download assets
+        uses: actions/download-artifact@v4
+        with:
+          name: cline-android-assets
+          path: app/src/main/assets
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build release APK
+        run: ./gradlew :app:assembleStandardRelease
+        env:
+          CLINE_KEYSTORE: ${{ secrets.CLINE_KEYSTORE }}
+          CLINE_KEYSTORE_PASSWORD: ${{ secrets.CLINE_KEYSTORE_PASSWORD }}
+          CLINE_KEY_ALIAS: ${{ secrets.CLINE_KEY_ALIAS }}
+          CLINE_KEY_PASSWORD: ${{ secrets.CLINE_KEY_PASSWORD }}
+
+      - name: Upload release APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cline-android-release
+          path: app/build/outputs/apk/standard/release/*.apk
+          retention-days: 30
+
+  # Documentation Job
+  docs:
+    name: Generate Documentation
+    runs-on: ubuntu-latest
+    if: ${{ inputs.target == 'all' }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create documentation
+        run: |
+          # Create basic documentation files
+          mkdir -p docs
+          
+          cat > docs/ARCHITECTURE.md << 'EOF'
+          # Cline Android Architecture
+          
+          ## Overview
+          Cline Android is a powerful AI coding agent app built with Material Design 3 Expressive principles.
+          
+          ## Architecture Layers
+          
+          ### Design System
+          - **DesignTokens**: Centralized design tokens (colors, typography, spacing, etc.)
+          - **Theme**: Material Design 3 theme system with dynamic color support
+          - **Components**: Reusable Compose components (Buttons, Cards, Inputs, etc.)
+          - **Animations**: Spring-based animations and transitions
+          
+          ### UI Layer
+          - **Activities**: Main entry points for different screens
+          - **Screens**: Jetpack Compose screens (Chat, Terminal, Plugins, Settings, etc.)
+          - **Navigation**: Compose Navigation with animated transitions
+          - **Fragments**: Legacy View system compatibility
+          - **Adapters**: Legacy RecyclerView adapters
+          
+          ### Core Layer
+          - **ClineController**: Main orchestration controller
+          - **ConfigStore**: Configuration management with encrypted storage
+          - **RuntimeHostPorts**: Port configuration and management
+          - **ProotBootstrap**: proot binary management and extraction
+          - **ContainerRuntime**: Container environment and rootfs management
+          - **WebProcessManager**: Web UI process lifecycle management
+          - **TerminalProcess**: Terminal emulation with PTY support
+          - **EnvironmentAccess**: External storage and file operations
+          
+          ### Data Layer
+          - **KeyVault**: API key encryption using Android Keystore
+          - **BackupManager**: Backup and restore operations
+          - **Repositories**: PluginRepository, BackupRepository
+          
+          ### Bridge Layer
+          - **LocalNetworkAccess**: Local network connectivity management
+          - **AppBridge**: App-level operations and intents
+          - **AdbBridge**: ADB communication and shell commands
+          
+          ### Recovery Layer
+          - **RecoveryController**: Recovery mode orchestration
+          - **RecoveryRuntime**: Safe runtime environment for recovery
+          - **RecoveryService**: Background recovery operations
+          
+          ## Build System
+          - **Gradle**: Multi-flavor build configuration (standard/low)
+          - **Python Scripts**: Asset preparation and runtime building
+          - **CI/CD**: GitHub Actions workflows
+          
+          ## Technologies
+          - **Language**: Kotlin 17 (JVM target 17)
+          - **UI**: Jetpack Compose with Material Design 3
+          - **Architecture**: Single module with product flavors
+          - **NDK**: Version 26 for native libraries
+          - **Dependencies**: Compose BOM 2024.02.00, AndroidX, Material 3
+          EOF
+          
+          cat > docs/BUILD.md << 'EOF'
+          # Building Cline Android
+          
+          ## Prerequisites
+          - JDK 17
+          - Android SDK (API 37)
+          - Android NDK 26
+          - Python 3.9+
+          
+          ## Quick Start
+          
+          ### 1. Clone the repository
+          ```bash
+          git clone https://github.com/your-org/cline-android.git
+          cd cline-android
+          ```
+          
+          ### 2. Build assets (requires sudo for rootfs)
+          ```bash
+          sudo ./tools/build-rootfs.py
+          ./tools/build-cline-runtime.py
+          ./tools/prepare-assets.py
+          ```
+          
+          ### 3. Build APK
+          ```bash
+          # Standard debug
+          ./build.sh apk standard debug
+          
+          # Standard release
+          ./build.sh apk standard release
+          
+          # Low flavor (API 23+)
+          ./build.sh apk low debug
+          ```
+          
+          ## Build Script Options
+          ```bash
+          ./build.sh [target] [flavor] [build_type]
+          
+          Targets: rootfs, runtime, assets, apk, all
+          Flavors: standard, low
+          Build types: debug, release
+          ```
+          
+          ## Testing
+          ```bash
+          # Unit tests
+          ./gradlew :app:testStandardDebugUnitTest
+          
+          # Instrumentation tests
+          ./gradlew :app:connectedStandardDebugAndroidTest
+          ```
+          EOF
+          
+          cat > docs/DEVELOPMENT.md << 'EOF'
+          # Development Guide
+          
+          ## Project Structure
+          ```
+          cline-android/
+          ├── app/
+          │   ├── src/main/
+          │   │   ├── java/com/cline/app/
+          │   │   │   ├── design/           # Design system
+          │   │   │   ├── ui/              # UI layer
+          │   │   │   ├── core/            # Core logic
+          │   │   │   ├── data/            # Data layer
+          │   │   │   ├── bridge/          # Bridge layer
+          │   │   │   ├── recovery/        # Recovery layer
+          │   │   │   └── util/            # Utilities
+          │   │   └── res/               # Resources
+          │   └── build.gradle
+          ├── tools/                    # Build scripts
+          ├── build.sh                 # Main build script
+          └── .github/workflows/       # CI/CD
+          ```
+          
+          ## Adding New Features
+          
+          ### 1. Create a new screen
+          - Add file to `app/src/main/java/com/cline/app/ui/screens/`
+          - Add navigation route in `Navigation.kt`
+          - Add string resources in `res/values/strings.xml`
+          
+          ### 2. Create a new component
+          - Add file to `app/src/main/java/com/cline/app/design/components/`
+          - Follow Material Design 3 guidelines
+          - Use DesignTokens for colors, spacing, etc.
+          
+          ### 3. Add configuration
+          - Add property to `ConfigStore.kt`
+          - Add preference key constant
+          - Update default values
+          
+          ## Code Style
+          - Use Kotlin idiomatic style
+          - Follow Material Design 3 principles
+          - Use Compose for all new UI
+          - Use coroutines for async operations
+          
+          ## Testing
+          - Add unit tests in `app/src/test/`
+          - Add instrumentation tests in `app/src/androidTest/`
+          - Use JUnit 4 for test framework
+          EOF
+
+      - name: Upload documentation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cline-android-docs
+          path: docs/
+          retention-days: 30
+
+  # Cleanup Job
+  cleanup:
+    name: Cleanup
+    needs: [build, runtime-assets, release-build, docs]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Cleanup old artifacts
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Delete artifacts older than 30 days
+            // This is a placeholder - actual cleanup would use GitHub API

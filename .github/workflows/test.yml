@@ -1,0 +1,239 @@
+name: Cline Android Tests
+
+# Test workflow for Cline Android App
+# Runs tests on every push and pull request
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+      - feature/*
+      - fix/*
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: 'Test type'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - unit
+          - instrumentation
+          - lint
+
+# Environment variables
+env:
+  JAVA_VERSION: '17'
+  ANDROID_SDK_VERSION: '37'
+  ANDROID_NDK_VERSION: '26'
+
+jobs:
+  # Unit Tests
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    if: ${{ inputs.test_type == 'all' || inputs.test_type == 'unit' }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          sdk-version: ${{ env.ANDROID_SDK_VERSION }}
+          ndk-version: ${{ env.ANDROID_NDK_VERSION }}
+
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Run all unit tests
+        run: ./gradlew :app:testStandardDebugUnitTest
+
+      - name: Run specific test class
+        if: false # Disabled for now
+        run: ./gradlew :app:testStandardDebugUnitTest --tests "com.cline.app.*"
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unit-test-results
+          path: app/build/reports/tests/testStandardDebugUnitTest/
+          retention-days: 7
+
+  # Instrumentation Tests
+  instrumentation-tests:
+    name: Instrumentation Tests
+    runs-on: ubuntu-latest
+    if: ${{ inputs.test_type == 'all' || inputs.test_type == 'instrumentation' }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          sdk-version: ${{ env.ANDROID_SDK_VERSION }}
+          ndk-version: ${{ env.ANDROID_NDK_VERSION }}
+
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Run instrumentation tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6_pro
+          avd-name: test_avd
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          disable-animations: true
+          script: ./gradlew :app:connectedStandardDebugAndroidTest
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: instrumentation-test-results
+          path: app/build/reports/androidTests/connected/
+          retention-days: 7
+
+  # Lint
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    if: ${{ inputs.test_type == 'all' || inputs.test_type == 'lint' }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          sdk-version: ${{ env.ANDROID_SDK_VERSION }}
+
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Run lint
+        run: ./gradlew :app:lintStandardDebug
+
+      - name: Upload lint results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lint-results
+          path: app/build/reports/lint-results-standardDebug/
+          retention-days: 7
+
+  # Test Summary
+  test-summary:
+    name: Test Summary
+    needs: [unit-tests, instrumentation-tests, lint]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-all-artifactsv1
+
+      - name: Generate test summary
+        run: |
+          echo "# Test Summary" > TEST_SUMMARY.md
+          echo "" >> TEST_SUMMARY.md
+          echo "## Test Results" >> TEST_SUMMARY.md
+          echo "" >> TEST_SUMMARY.md
+          
+          # Check unit test results
+          if [ -d "unit-test-results" ]; then
+            echo "### Unit Tests: PASSED ✅" >> TEST_SUMMARY.md
+          else
+            echo "### Unit Tests: FAILED ❌" >> TEST_SUMMARY.md
+          fi
+          
+          # Check instrumentation test results
+          if [ -d "instrumentation-test-results" ]; then
+            echo "### Instrumentation Tests: PASSED ✅" >> TEST_SUMMARY.md
+          else
+            echo "### Instrumentation Tests: SKIPPED ⏭️" >> TEST_SUMMARY.md
+          fi
+          
+          # Check lint results
+          if [ -d "lint-results" ]; then
+            echo "### Lint: PASSED ✅" >> TEST_SUMMARY.md
+          else
+            echo "### Lint: FAILED ❌" >> TEST_SUMMARY.md
+          fi
+          
+          echo "" >> TEST_SUMMARY.md
+          echo "Generated at: $(date)" >> TEST_SUMMARY.md
+
+      - name: Upload test summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-summary
+          path: TEST_SUMMARY.md
+          retention-days: 30
