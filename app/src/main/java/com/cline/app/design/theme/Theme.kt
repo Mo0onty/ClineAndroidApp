@@ -94,8 +94,8 @@ object ClineTheme {
         onTertiary = DesignTokens.Colors.OnTertiary,
         onTertiaryContainer = DesignTokens.Colors.OnTertiaryContainer,
         
-        background = DesignTokens.Colors.Surface,
-        onBackground = DesignTokens.Colors.OnSurface,
+        background = DesignTokens.Colors.Background,
+        onBackground = DesignTokens.Colors.OnBackground,
         
         surface = DesignTokens.Colors.Surface,
         onSurface = DesignTokens.Colors.OnSurface,

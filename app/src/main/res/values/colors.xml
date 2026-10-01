@@ -1,66 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- colors.xml - Material Design 3 Expressive Color System -->
+<!-- colors.xml - Cline AI Official Green Color System -->
 <resources>
-    <!-- Seed Color (Primary Brand Color) -->
-    <color name="seed_color">#FF6750A4</color>
+    <!-- Seed Color (Cline AI Primary Brand Color - Official Green) -->
+    <color name="seed_color">#FF00D4AA</color>
     
     <!-- Primary Colors -->
-    <color name="primary">#FF6750A4</color>
-    <color name="primary_container">#FFEADDFF</color>
-    <color name="on_primary">#FFFFFFFF</color>
-    <color name="on_primary_container">#FF21005D</color>
+    <color name="primary">#FF00D4AA</color>
+    <color name="primary_container">#FF00F5C2</color>
+    <color name="on_primary">#FF00382B</color>
+    <color name="on_primary_container">#FF002015</color>
     
     <!-- Primary Container Variants -->
-    <color name="primary_container_low">#FFF3EDF7</color>
-    <color name="primary_container_high">#FFEADDFF</color>
+    <color name="primary_container_low">#FF00E5B8</color>
+    <color name="primary_container_high">#FF00F5C2</color>
     
-    <!-- Secondary Colors -->
-    <color name="secondary">#FF625B71</color>
-    <color name="secondary_container">#FFE8DEF8</color>
-    <color name="on_secondary">#FFFFFFFF</color>
-    <color name="on_secondary_container">#FF1E192B</color>
+    <!-- Secondary Colors (Cline AI Secondary Palette) -->
+    <color name="secondary">#FF00B8A3</color>
+    <color name="secondary_container">#FF00E9C2</color>
+    <color name="on_secondary">#FF00382B</color>
+    <color name="on_secondary_container">#FF002015</color>
     
-    <!-- Tertiary Colors -->
-    <color name="tertiary">#FF7D5260</color>
-    <color name="tertiary_container">#FFFFD8E4</color>
-    <color name="on_tertiary">#FFFFFFFF</color>
-    <color name="on_tertiary_container">#FF31111D</color>
+    <!-- Tertiary Colors (Cline AI Accent Palette) -->
+    <color name="tertiary">#FF00E5B8</color>
+    <color name="tertiary_container">#FF00F5E5</color>
+    <color name="on_tertiary">#FF00382B</color>
+    <color name="on_tertiary_container">#FF002015</color>
     
     <!-- Surface Colors -->
-    <color name="surface">#FFFFFBFE</color>
-    <color name="surface_variant">#FFE7E0EC</color>
-    <color name="surface_tint">#FF6750A4</color>
-    <color name="surface_container">#FFF3EDF7</color>
-    <color name="surface_container_low">#FFF3EDF7</color>
-    <color name="surface_container_high">#FFEADDFF</color>
-    <color name="surface_dim">#FFDCD9E0</color>
-    <color name="surface_bright">#FFFFFBFE</color>
+    <color name="surface">#FF1A1C1E</color>
+    <color name="surface_variant">#FF2A2D30</color>
+    <color name="surface_tint">#FF00D4AA</color>
+    <color name="surface_container">#FF212528</color>
+    <color name="surface_container_low">#FF1F2326</color>
+    <color name="surface_container_high">#FF2B3034</color>
+    <color name="surface_dim">#FF14171A</color>
+    <color name="surface_bright">#FF35393C</color>
     
     <!-- On Surface Colors -->
-    <color name="on_surface">#FF1C1B1F</color>
-    <color name="on_surface_variant">#FF49454F</color>
-    <color name="on_surface_inverse">#FFF3EDF7</color>
+    <color name="on_surface">#FFE0E3E6</color>
+    <color name="on_surface_variant">#FFBFC4C8</color>
+    <color name="on_surface_inverse">#FF1A1C1E</color>
     
     <!-- Background Colors -->
-    <color name="background">#FFFFFBFE</color>
-    <color name="on_background">#FF1C1B1F</color>
+    <color name="background">#FF121416</color>
+    <color name="on_background">#FFE0E3E6</color>
     
     <!-- Error Colors -->
-    <color name="error">#FFB3261E</color>
-    <color name="error_container">#FFF9DEDC</color>
+    <color name="error">#FFFF5555</color>
+    <color name="error_container">#FF420000</color>
     <color name="on_error">#FFFFFFFF</color>
-    <color name="on_error_container">#FF410E0B</color>
+    <color name="on_error_container">#FFFFB3B3</color>
     
     <!-- Outline Colors -->
-    <color name="outline">#FF79747E</color>
-    <color name="outline_variant">#FFCAC4D0</color>
+    <color name="outline">#FF5A5F64</color>
+    <color name="outline_variant">#FF3F4449</color>
     
     <!-- Scrim -->
     <color name="scrim">#FF000000</color>
     
     <!-- Inverse Colors -->
-    <color name="inverse_primary">#FFD0BCFF</color>
-    <color name="inverse_surface">#FF313034</color>
+    <color name="inverse_primary">#FF006B54</color>
+    <color name="inverse_surface">#FFE0E3E6</color>
     
     <!-- Shadow Colors -->
     <color name="shadow">#FF000000</color>
@@ -70,156 +70,156 @@
     <!-- ==================================================================== -->
     
     <!-- Dark Primary Colors -->
-    <color name="dark_primary">#FFD0BCFF</color>
-    <color name="dark_primary_container">#FF4F378B</color>
-    <color name="dark_on_primary">#FF000000</color>
-    <color name="dark_on_primary_container">#FFEADDFF</color>
+    <color name="dark_primary">#FF00D4AA</color>
+    <color name="dark_primary_container">#FF004D3A</color>
+    <color name="dark_on_primary">#FF00382B</color>
+    <color name="dark_on_primary_container">#FF00F5C2</color>
     
     <!-- Dark Secondary Colors -->
-    <color name="dark_secondary">#FFCCC2DC</color>
-    <color name="dark_secondary_container">#FF4A4458</color>
-    <color name="dark_on_secondary">#FF000000</color>
-    <color name="dark_on_secondary_container">#FFE8DEF8</color>
+    <color name="dark_secondary">#FF00B8A3</color>
+    <color name="dark_secondary_container">#FF004D3A</color>
+    <color name="dark_on_secondary">#FF00382B</color>
+    <color name="dark_on_secondary_container">#FF00E9C2</color>
     
     <!-- Dark Tertiary Colors -->
-    <color name="dark_tertiary">#FFEFB8C8</color>
-    <color name="dark_tertiary_container">#FF5F3A4A</color>
-    <color name="dark_on_tertiary">#FF000000</color>
-    <color name="dark_on_tertiary_container">#FFFFD8E4</color>
+    <color name="dark_tertiary">#FF00E5B8</color>
+    <color name="dark_tertiary_container">#FF004D3A</color>
+    <color name="dark_on_tertiary">#FF00382B</color>
+    <color name="dark_on_tertiary_container">#FF00F5E5</color>
     
     <!-- Dark Surface Colors -->
-    <color name="dark_surface">#FF1C1B1F</color>
-    <color name="dark_surface_variant">#FF49454F</color>
-    <color name="dark_surface_tint">#FFD0BCFF</color>
-    <color name="dark_surface_container">#FF313034</color>
-    <color name="dark_surface_container_low">#FF313034</color>
-    <color name="dark_surface_container_high">#FF4F378B</color>
-    <color name="dark_surface_dim">#FF131216</color>
-    <color name="dark_surface_bright">#FF3B3A3F</color>
+    <color name="dark_surface">#FF121416</color>
+    <color name="dark_surface_variant">#FF1A1C1E</color>
+    <color name="dark_surface_tint">#FF00D4AA</color>
+    <color name="dark_surface_container">#FF1F2326</color>
+    <color name="dark_surface_container_low">#FF1F2326</color>
+    <color name="dark_surface_container_high">#FF2B3034</color>
+    <color name="dark_surface_dim">#FF0A0C0E</color>
+    <color name="dark_surface_bright">#FF2A2D30</color>
     
     <!-- Dark On Surface Colors -->
-    <color name="dark_on_surface">#FFE6E0E9</color>
-    <color name="dark_on_surface_variant">#FFCAC4D0</color>
-    <color name="dark_on_surface_inverse">#FF1C1B1F</color>
+    <color name="dark_on_surface">#FFE0E3E6</color>
+    <color name="dark_on_surface_variant">#FFBFC4C8</color>
+    <color name="dark_on_surface_inverse">#FF121416</color>
     
     <!-- Dark Background Colors -->
-    <color name="dark_background">#FF1C1B1F</color>
-    <color name="dark_on_background">#FFE6E0E9</color>
+    <color name="dark_background">#FF121416</color>
+    <color name="dark_on_background">#FFE0E3E6</color>
     
     <!-- Dark Error Colors -->
-    <color name="dark_error">#FFF2B8B5</color>
-    <color name="dark_error_container">#FF8C1D18</color>
-    <color name="dark_on_error">#FF000000</color>
-    <color name="dark_on_error_container">#FFF9DEDC</color>
+    <color name="dark_error">#FFFF5555</color>
+    <color name="dark_error_container">#FF420000</color>
+    <color name="dark_on_error">#FFFFFFFF</color>
+    <color name="dark_on_error_container">#FFFFB3B3</color>
     
     <!-- Dark Outline Colors -->
-    <color name="dark_outline">#FF938F99</color>
-    <color name="dark_outline_variant">#FF49454F</color>
+    <color name="dark_outline">#FF5A5F64</color>
+    <color name="dark_outline_variant">#FF3F4449</color>
     
     <!-- Dark Scrim -->
     <color name="dark_scrim">#FF000000</color>
     
     <!-- Dark Inverse Colors -->
-    <color name="dark_inverse_primary">#FF4F378B</color>
-    <color name="dark_inverse_surface">#FFE6E0E9</color>
+    <color name="dark_inverse_primary">#FF006B54</color>
+    <color name="dark_inverse_surface">#FFE0E3E6</color>
     
     <!-- ==================================================================== -->
     <!-- Semantic Colors for Material 3 -->
     <!-- ==================================================================== -->
     
     <!-- Light Theme Semantic Colors -->
-    <color name="md_ref_pal_surface">#FFFFFBFE</color>
-    <color name="md_ref_pal_surface_variant">#FFE7E0EC</color>
-    <color name="md_ref_pal_surface_container">#FFF3EDF7</color>
-    <color name="md_ref_pal_on_surface">#FF1C1B1F</color>
-    <color name="md_ref_pal_on_surface_variant">#FF49454F</color>
-    <color name="md_ref_pal_primary">#FF6750A4</color>
-    <color name="md_ref_pal_primary_container">#FFEADDFF</color>
-    <color name="md_ref_pal_on_primary">#FFFFFFFF</color>
-    <color name="md_ref_pal_on_primary_container">#FF21005D</color>
-    <color name="md_ref_pal_secondary">#FF625B71</color>
-    <color name="md_ref_pal_secondary_container">#FFE8DEF8</color>
-    <color name="md_ref_pal_on_secondary">#FFFFFFFF</color>
-    <color name="md_ref_pal_on_secondary_container">#FF1E192B</color>
-    <color name="md_ref_pal_tertiary">#FF7D5260</color>
-    <color name="md_ref_pal_tertiary_container">#FFFFD8E4</color>
-    <color name="md_ref_pal_on_tertiary">#FFFFFFFF</color>
-    <color name="md_ref_pal_on_tertiary_container">#FF31111D</color>
-    <color name="md_ref_pal_error">#FFB3261E</color>
-    <color name="md_ref_pal_error_container">#FFF9DEDC</color>
+    <color name="md_ref_pal_surface">#FF1A1C1E</color>
+    <color name="md_ref_pal_surface_variant">#FF2A2D30</color>
+    <color name="md_ref_pal_surface_container">#FF212528</color>
+    <color name="md_ref_pal_on_surface">#FFE0E3E6</color>
+    <color name="md_ref_pal_on_surface_variant">#FFBFC4C8</color>
+    <color name="md_ref_pal_primary">#FF00D4AA</color>
+    <color name="md_ref_pal_primary_container">#FF00F5C2</color>
+    <color name="md_ref_pal_on_primary">#FF00382B</color>
+    <color name="md_ref_pal_on_primary_container">#FF002015</color>
+    <color name="md_ref_pal_secondary">#FF00B8A3</color>
+    <color name="md_ref_pal_secondary_container">#FF00E9C2</color>
+    <color name="md_ref_pal_on_secondary">#FF00382B</color>
+    <color name="md_ref_pal_on_secondary_container">#FF002015</color>
+    <color name="md_ref_pal_tertiary">#FF00E5B8</color>
+    <color name="md_ref_pal_tertiary_container">#FF00F5E5</color>
+    <color name="md_ref_pal_on_tertiary">#FF00382B</color>
+    <color name="md_ref_pal_on_tertiary_container">#FF002015</color>
+    <color name="md_ref_pal_error">#FFFF5555</color>
+    <color name="md_ref_pal_error_container">#FF420000</color>
     <color name="md_ref_pal_on_error">#FFFFFFFF</color>
-    <color name="md_ref_pal_on_error_container">#FF410E0B</color>
-    <color name="md_ref_pal_outline">#FF79747E</color>
-    <color name="md_ref_pal_outline_variant">#FFCAC4D0</color>
+    <color name="md_ref_pal_on_error_container">#FFFFB3B3</color>
+    <color name="md_ref_pal_outline">#FF5A5F64</color>
+    <color name="md_ref_pal_outline_variant">#FF3F4449</color>
     <color name="md_ref_pal_shadow">#FF000000</color>
     <color name="md_ref_pal_scrim">#FF000000</color>
-    <color name="md_ref_pal_inverse_surface">#FF313034</color>
-    <color name="md_ref_pal_inverse_on_surface">#FFE6E0E9</color>
-    <color name="md_ref_pal_inverse_primary">#FFD0BCFF</color>
+    <color name="md_ref_pal_inverse_surface">#FF35393C</color>
+    <color name="md_ref_pal_inverse_on_surface">#FFE0E3E6</color>
+    <color name="md_ref_pal_inverse_primary">#FF006B54</color>
     
     <!-- ==================================================================== -->
     <!-- App-Specific Colors -->
     <!-- ==================================================================== -->
     
-    <!-- Brand Colors -->
-    <color name="brand_primary">#FF6750A4</color>
-    <color name="brand_secondary">#FF625B71</color>
-    <color name="brand_accent">#FF7D5260</color>
+    <!-- Brand Colors (Cline AI Official) -->
+    <color name="brand_primary">#FF00D4AA</color>
+    <color name="brand_secondary">#FF00B8A3</color>
+    <color name="brand_accent">#FF00E5B8</color>
     
     <!-- Status Colors -->
     <color name="status_success">#FF28A745</color>
     <color name="status_warning">#FFFFC107</color>
-    <color name="status_error">#FFDC3545</color>
-    <color name="status_info">#FF17A2B8</color>
+    <color name="status_error">#FFFF5555</color>
+    <color name="status_info">#FF00D4AA</color>
     
     <!-- Action Colors -->
-    <color name="action_primary">#FF6750A4</color>
-    <color name="action_secondary">#FF625B71</color>
+    <color name="action_primary">#FF00D4AA</color>
+    <color name="action_secondary">#FF00B8A3</color>
     <color name="action_positive">#FF28A745</color>
-    <color name="action_negative">#FFDC3545</color>
+    <color name="action_negative">#FFFF5555</color>
     <color name="action_neutral">#FF6C757D</color>
     
     <!-- Background Colors -->
-    <color name="bg_primary">#FFFFFBFE</color>
-    <color name="bg_secondary">#FFF3EDF7</color>
-    <color name="bg_tertiary">#FFE7E0EC</color>
-    <color name="bg_elevated">#FFFFFFFF</color>
+    <color name="bg_primary">#FF121416</color>
+    <color name="bg_secondary">#FF1A1C1E</color>
+    <color name="bg_tertiary">#FF2A2D30</color>
+    <color name="bg_elevated">#FF212528</color>
     
     <!-- Text Colors -->
-    <color name="text_primary">#FF1C1B1F</color>
-    <color name="text_secondary">#FF49454F</color>
-    <color name="text_tertiary">#FF79747E</color>
-    <color name="text_disabled">#FFCAC4D0</color>
-    <color name="text_inverse">#FFFFFFFF</color>
+    <color name="text_primary">#FFE0E3E6</color>
+    <color name="text_secondary">#FFBFC4C8</color>
+    <color name="text_tertiary">#FF5A5F64</color>
+    <color name="text_disabled">#FF3F4449</color>
+    <color name="text_inverse">#FF121416</color>
     
     <!-- Icon Colors -->
-    <color name="icon_primary">#FF1C1B1F</color>
-    <color name="icon_secondary">#FF49454F</color>
-    <color name="icon_tertiary">#FF79747E</color>
-    <color name="icon_disabled">#FFCAC4D0</color>
-    <color name="icon_inverse">#FFFFFFFF</color>
+    <color name="icon_primary">#FFE0E3E6</color>
+    <color name="icon_secondary">#FFBFC4C8</color>
+    <color name="icon_tertiary">#FF5A5F64</color>
+    <color name="icon_disabled">#FF3F4449</color>
+    <color name="icon_inverse">#FF121416</color>
     
     <!-- Border Colors -->
-    <color name="border_primary">#FFE7E0EC</color>
-    <color name="border_secondary">#FFCAC4D0</color>
-    <color name="border_disabled">#FFCAC4D0</color>
+    <color name="border_primary">#FF2A2D30</color>
+    <color name="border_secondary">#FF3F4449</color>
+    <color name="border_disabled">#FF3F4449</color>
     
     <!-- Divider Colors -->
-    <color name="divider_primary">#FFE7E0EC</color>
-    <color name="divider_secondary">#FFCAC4D0</color>
+    <color name="divider_primary">#FF2A2D30</color>
+    <color name="divider_secondary">#FF3F4449</color>
     
     <!-- Overlay Colors -->
     <color name="overlay_light">#80000000</color>
     <color name="overlay_medium">#A0000000</color>
     <color name="overlay_heavy">#C0000000</color>
     
-    <!-- Gradient Colors -->
-    <color name="gradient_start">#FF6750A4</color>
-    <color name="gradient_end">#FF7D5260</color>
-    <color name="gradient_secondary_start">#FF625B71</color>
-    <color name="gradient_secondary_end">#FF4A4458</color>
+    <!-- Gradient Colors (Cline AI Green Palette) -->
+    <color name="gradient_start">#FF00D4AA</color>
+    <color name="gradient_end">#FF00E5B8</color>
+    <color name="gradient_secondary_start">#FF00B8A3</color>
+    <color name="gradient_secondary_end">#FF004D3A</color>
     
     <!-- Launcher Icon Colors -->
-    <color name="launcher_background_color">#FFFFFFFF</color>
-    <color name="launcher_foreground_color">#FF6750A4</color>
+    <color name="launcher_background_color">#FF121416</color>
+    <color name="launcher_foreground_color">#FF00D4AA</color>
 </resources>

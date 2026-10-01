@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- themes.xml - Material Design 3 Expressive Theme Definitions -->
+<!-- themes.xml - Cline AI Official Green Theme Definitions -->
 <resources>
     <!-- ==================================================================== -->
-    <!-- Light Theme -->
+    <!-- Light Theme (Cline AI Green Palette) -->
     <!-- ==================================================================== -->
     
     <style name="Theme.Cline.Light" parent="Theme.Material3.DayNight.NoActionBar">
@@ -62,11 +62,11 @@
         
         <!-- Status Bar -->
         <item name="android:statusBarColor">@color/surface</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
         
         <!-- Navigation Bar -->
         <item name="android:navigationBarColor">@color/surface</item>
-        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowLightNavigationBar">false</item>
         
         <!-- Window -->
         <item name="android:windowBackground">@color/background</item>
@@ -74,7 +74,7 @@
     </style>
     
     <!-- ==================================================================== -->
-    <!-- Dark Theme -->
+    <!-- Dark Theme (Cline AI Green Palette) -->
     <!-- ==================================================================== -->
     
     <style name="Theme.Cline.Dark" parent="Theme.Material3.DayNight.NoActionBar">
@@ -146,94 +146,32 @@
     </style>
     
     <!-- ==================================================================== -->
-    <!-- Dynamic Color Theme (Android 12+) -->
+    <!-- Dynamic Theme (Cline AI Green Palette) -->
     <!-- ==================================================================== -->
     
     <style name="Theme.Cline.Dynamic" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Use dynamic colors -->
-        <item name="colorPrimary">?attr/colorPrimary</item>
-        <item name="colorPrimaryContainer">?attr/colorPrimaryContainer</item>
-        <item name="colorOnPrimary">?attr/colorOnPrimary</item>
-        <item name="colorOnPrimaryContainer">?attr/colorOnPrimaryContainer</item>
-        
-        <item name="colorSecondary">?attr/colorSecondary</item>
-        <item name="colorSecondaryContainer">?attr/colorSecondaryContainer</item>
-        <item name="colorOnSecondary">?attr/colorOnSecondary</item>
-        <item name="colorOnSecondaryContainer">?attr/colorOnSecondaryContainer</item>
-        
-        <item name="colorTertiary">?attr/colorTertiary</item>
-        <item name="colorTertiaryContainer">?attr/colorTertiaryContainer</item>
-        <item name="colorOnTertiary">?attr/colorOnTertiary</item>
-        <item name="colorOnTertiaryContainer">?attr/colorOnTertiaryContainer</item>
-        
-        <item name="colorSurface">?attr/colorSurface</item>
-        <item name="colorSurfaceVariant">?attr/colorSurfaceVariant</item>
-        <item name="colorSurfaceContainer">?attr/colorSurfaceContainer</item>
-        <item name="colorSurfaceContainerLow">?attr/colorSurfaceContainerLow</item>
-        <item name="colorSurfaceContainerHigh">?attr/colorSurfaceContainerHigh</item>
-        <item name="colorSurfaceDim">?attr/colorSurfaceDim</item>
-        <item name="colorSurfaceBright">?attr/colorSurfaceBright</item>
-        <item name="colorSurfaceTint">?attr/colorSurfaceTint</item>
-        
-        <item name="colorOnSurface">?attr/colorOnSurface</item>
-        <item name="colorOnSurfaceVariant">?attr/colorOnSurfaceVariant</item>
-        <item name="colorOnSurfaceInverse">?attr/colorOnSurfaceInverse</item>
-        
-        <item name="android:colorBackground">?attr/colorBackground</item>
-        <item name="colorOnBackground">?attr/colorOnBackground</item>
-        
-        <item name="colorError">?attr/colorError</item>
-        <item name="colorErrorContainer">?attr/colorErrorContainer</item>
-        <item name="colorOnError">?attr/colorOnError</item>
-        <item name="colorOnErrorContainer">?attr/colorOnErrorContainer</item>
-        
-        <item name="colorOutline">?attr/colorOutline</item>
-        <item name="colorOutlineVariant">?attr/colorOutlineVariant</item>
-        
-        <item name="colorScrim">?attr/colorScrim</item>
-        
-        <item name="colorInversePrimary">?attr/colorInversePrimary</item>
-        <item name="colorInverseSurface">?attr/colorInverseSurface</item>
+        <!-- Inherit from Material 3 dynamic colors -->
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryContainer">@color/primary_container</item>
+        <item name="android:colorOnPrimary">@color/on_primary</item>
         
         <!-- Status Bar -->
-        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">false</item>
         
         <!-- Navigation Bar -->
-        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightNavigationBar">false</item>
         
         <!-- Window -->
-        <item name="android:windowBackground">?attr/colorBackground</item>
-        <item name="android:windowIsTranslucent">false</item>
-    </style>
-    
-    <!-- ==================================================================== -->
-    <!-- Main Theme (Used by default) -->
-    <!-- ==================================================================== -->
-    
-    <style name="Theme.Cline" parent="Theme.Cline.Dynamic">
-        <!-- Custom attributes -->
-        <item name="clineColorPrimary">@color/primary</item>
-        <item name="clineColorSecondary">@color/secondary</item>
-        <item name="clineColorTertiary">@color/tertiary</item>
-        <item name="clineColorSurface">@color/surface</item>
-        <item name="clineColorBackground">@color/background</item>
-        
-        <!-- Typography -->
-        <item name="android:fontFamily">sans-serif</item>
-        
-        <!-- Custom styles -->
-        <item name="buttonStyle">@style/Widget.Cline.Button</item>
-        <item name="textViewStyle">@style/Widget.Cline.TextView</item>
-        <item name="editTextStyle">@style/Widget.Cline.EditText</item>
+        <item name="android:windowBackground">@color/background</item>
     </style>
     
     <!-- ==================================================================== -->
     <!-- No Action Bar Theme -->
     <!-- ==================================================================== -->
     
-    <style name="Theme.Cline.NoActionBar" parent="Theme.Cline">
+    <style name="Theme.Cline.NoActionBar" parent="Theme.Cline.Dark">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -242,11 +180,9 @@
     <!-- Transparent Theme -->
     <!-- ==================================================================== -->
     
-    <style name="Theme.Cline.Transparent" parent="Theme.Cline">
+    <style name="Theme.Cline.Transparent" parent="Theme.Cline.Dark">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
     
     <!-- ==================================================================== -->
@@ -255,13 +191,9 @@
     
     <style name="Theme.Cline.Dialog" parent="Theme.Material3.DayNight">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryContainer">@color/primary_container</item>
         <item name="colorOnPrimary">@color/on_primary</item>
         <item name="colorSurface">@color/surface_container</item>
         <item name="colorOnSurface">@color/on_surface</item>
-        <item name="colorOutline">@color/outline</item>
-        <item name="colorError">@color/error</item>
-        <item name="android:windowBackground">@color/surface_container</item>
     </style>
     
     <!-- ==================================================================== -->
@@ -270,8 +202,8 @@
     
     <style name="Theme.Cline.BottomSheet" parent="Theme.Material3.DayNight">
         <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
         <item name="colorSurface">@color/surface_container</item>
         <item name="colorOnSurface">@color/on_surface</item>
-        <item name="android:windowBackground">@color/surface_container</item>
     </style>
 </resources>

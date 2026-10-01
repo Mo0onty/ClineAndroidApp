@@ -27,63 +27,63 @@ import androidx.core.graphics.toColorInt
 object DesignTokens {
 
     // ========================================================================
-    // COLOR SYSTEM - Material Design 3 Expressive
+    // COLOR SYSTEM - Cline AI Official Green Palette
     // ========================================================================
     
     object Colors {
-        // Seed color (Primary brand color)
-        val Primary = Color(0xFF6750A4)
-        val PrimaryContainer = Color(0xFFEADDFF)
-        val OnPrimary = Color(0xFFFFFFFF)
-        val OnPrimaryContainer = Color(0xFF21005D)
+        // Seed color (Cline AI official primary green brand color)
+        val Primary = Color(0xFF00D4AA)
+        val PrimaryContainer = Color(0xFF00F5C2)
+        val OnPrimary = Color(0xFF00382B)
+        val OnPrimaryContainer = Color(0xFF002015)
         
-        // Secondary colors
-        val Secondary = Color(0xFF625B71)
-        val SecondaryContainer = Color(0xFFE8DEF8)
-        val OnSecondary = Color(0xFFFFFFFF)
-        val OnSecondaryContainer = Color(0xFF1E192B)
+        // Secondary colors (Cline AI secondary palette - teal/blue-green)
+        val Secondary = Color(0xFF00B8A3)
+        val SecondaryContainer = Color(0xFF00E9C2)
+        val OnSecondary = Color(0xFF00382B)
+        val OnSecondaryContainer = Color(0xFF002015)
         
-        // Tertiary colors
-        val Tertiary = Color(0xFF7D5260)
-        val TertiaryContainer = Color(0xFFFFD8E4)
-        val OnTertiary = Color(0xFFFFFFFF)
-        val OnTertiaryContainer = Color(0xFF31111D)
+        // Tertiary colors (Cline AI accent - lighter green)
+        val Tertiary = Color(0xFF00E5B8)
+        val TertiaryContainer = Color(0xFF00F5E5)
+        val OnTertiary = Color(0xFF00382B)
+        val OnTertiaryContainer = Color(0xFF002015)
         
         // Surface colors
-        val Surface = Color(0xFFFFFBFE)
-        val SurfaceVariant = Color(0xFFE7E0EC)
-        val SurfaceTint = Color(0xFF6750A4)
-        val SurfaceContainer = Color(0xFFF3EDF7)
-        val SurfaceContainerLow = Color(0xFFF3EDF7)
-        val SurfaceContainerHigh = Color(0xFFEADDFF)
-        val SurfaceDim = Color(0xFFDCD9E0)
-        val SurfaceBright = Color(0xFFFFFBFE)
+        val Surface = Color(0xFF1A1C1E)
+        val SurfaceVariant = Color(0xFF2A2D30)
+        val SurfaceTint = Color(0xFF00D4AA)
+        val SurfaceContainer = Color(0xFF212528)
+        val SurfaceContainerLow = Color(0xFF1F2326)
+        val SurfaceContainerHigh = Color(0xFF2B3034)
+        val SurfaceDim = Color(0xFF14171A)
+        val SurfaceBright = Color(0xFF35393C)
         
         // On Surface colors
-        val OnSurface = Color(0xFF1C1B1F)
-        val OnSurfaceVariant = Color(0xFF49454F)
-        val OnSurfaceInverse = Color(0xFFF3EDF7)
+        val OnSurface = Color(0xFFE0E3E6)
+        val OnSurfaceVariant = Color(0xFFBFC4C8)
+        val OnSurfaceInverse = Color(0xFF1A1C1E)
         
         // Background colors
-        val Background = Color(0xFFFFFBFE)
-        val OnBackground = Color(0xFF1C1B1F)
+        val Background = Color(0xFF121416)
+        val OnBackground = Color(0xFFE0E3E6)
         
         // Error colors
-        val Error = Color(0xFFB3261E)
-        val ErrorContainer = Color(0xFFF9DEDC)
+        val Error = Color(0xFFFF5555)
+        val ErrorContainer = Color(0xFF420000)
         val OnError = Color(0xFFFFFFFF)
-        val OnErrorContainer = Color(0xFF410E0B)
+        val OnErrorContainer = Color(0xFFFFB3B3)
         
         // Outline colors
-        val Outline = Color(0xFF79747E)
-        val OutlineVariant = Color(0xFFCAC4D0)
+        val Outline = Color(0xFF5A5F64)
+        val OutlineVariant = Color(0xFF3F4449)
         
         // Scrim
         val Scrim = Color(0xFF000000)
         
         // Inverse colors
-        val InversePrimary = Color(0xFFD0BCFF)
-        val InverseSurface = Color(0xFF313034)
+        val InversePrimary = Color(0xFF006B54)
+        val InverseSurface = Color(0xFFE0E3E6)
         
         // Dynamic color support
         @Composable
