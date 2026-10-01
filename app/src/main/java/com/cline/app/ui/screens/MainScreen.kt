@@ -22,6 +22,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Chat
 import androidx.compose.material.icons.filled.Extension
+import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -73,6 +75,8 @@ fun MainScreen(
     onTerminalClick: () -> Unit,
     onPluginsClick: () -> Unit,
     onSettingsClick: () -> Unit,
+    onFileBrowserClick: () -> Unit,
+    onVoiceInputClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -96,6 +100,8 @@ fun MainScreen(
                             Screen.Terminal -> onTerminalClick()
                             Screen.Plugins -> onPluginsClick()
                             Screen.Settings -> onSettingsClick()
+                            Screen.FileBrowser -> onFileBrowserClick()
+                            Screen.VoiceInput -> onVoiceInputClick()
                             else -> {}
                         }
                     }
@@ -149,6 +155,8 @@ private fun getCurrentScreen(navController: NavHostController): Screen {
         Screen.Terminal.route -> Screen.Terminal
         Screen.Plugins.route -> Screen.Plugins
         Screen.Settings.route -> Screen.Settings
+        Screen.FileBrowser.route -> Screen.FileBrowser
+        Screen.VoiceInput.route -> Screen.VoiceInput
         else -> Screen.Chat
     }
 }
@@ -166,6 +174,8 @@ fun HomeScreen(
     onTerminalClick: () -> Unit,
     onPluginsClick: () -> Unit,
     onSettingsClick: () -> Unit,
+    onFileBrowserClick: () -> Unit,
+    onVoiceInputClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -234,6 +244,29 @@ fun HomeScreen(
                 title = "Plugins",
                 description = "Browse and install plugins",
                 onClick = onPluginsClick,
+                modifier = Modifier.weight(1f)
+            )
+
+            ActionCard(
+                icon = Icons.Default.Folder,
+                title = "Files",
+                description = "Browse app files",
+                onClick = onFileBrowserClick,
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(DesignTokens.Spacing.md))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(DesignTokens.Spacing.md)
+        ) {
+            ActionCard(
+                icon = Icons.Default.Mic,
+                title = "Voice",
+                description = "Use voice input",
+                onClick = onVoiceInputClick,
                 modifier = Modifier.weight(1f)
             )
 
@@ -314,6 +347,8 @@ fun DashboardScreen(
     onTerminalClick: () -> Unit,
     onPluginsClick: () -> Unit,
     onSettingsClick: () -> Unit,
+    onFileBrowserClick: () -> Unit,
+    onVoiceInputClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
