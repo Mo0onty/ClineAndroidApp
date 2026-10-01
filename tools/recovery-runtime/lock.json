@@ -1,0 +1,32 @@
+{
+  "name": "cline-recovery-runtime",
+  "version": "1.0.0",
+  "description": "Recovery runtime configuration for Cline Android",
+  "lock": {
+    "runtime": {
+      "type": "proot",
+      "arch": "arm64-v8a",
+      "minimal": true,
+      "safe_mode": true
+    },
+    "features": {
+      "network": false,
+      "plugins": false,
+      "backup": true,
+      "restore": true,
+      "terminal": true,
+      "file_access": true
+    },
+    "security": {
+      "sandbox": true,
+      "read_only_rootfs": true,
+      "no_external_network": true
+    },
+    "dependencies": {
+      "proot": "^1.0",
+      "busybox": "^1.0"
+    }
+  },
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "checksum": "placeholder-checksum"
+}

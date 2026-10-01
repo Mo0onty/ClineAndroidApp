@@ -1,0 +1,23 @@
+{
+  "name": "cline-web-compat",
+  "version": "1.0.0",
+  "description": "Web compatibility layer for Cline Android",
+  "main": "entry.cjs",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cline",
+    "android",
+    "web",
+    "compatibility",
+    "polyfill"
+  ],
+  "author": "Cline Team",
+  "license": "MIT",
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AndroidManifest.xml - Cline Android App Manifest -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.cline.app">
+    
+    <!-- ==================================================================== -->
+    <!-- App Information -->
+    <!-- ==================================================================== -->
+    
+    <application
+        android:name=".ClineApp"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Cline"
+        android:usesCleartextTraffic="false"
+        tools:targetApi="37">
+        
+        <!-- ==================================================================== -->
+        <!-- Activities -->
+        <!-- ==================================================================== -->
+        
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Cline">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+        
+        <!-- ==================================================================== -->
+        <!-- Services -->
+        <!-- ==================================================================== -->
+        
+        <!-- Background service for runtime management -->
+        <service
+            android:name=".runtime.RuntimeService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync|networkUsage"
+            android:stopWithTask="false" />
+        
+        <!-- Service for web process management -->
+        <service
+            android:name=".runtime.WebProcessService"
+            android:exported="false"
+            android:foregroundServiceType="networkUsage" />
+        
+        <!-- Service for automatic backups -->
+        <service
+            android:name=".backup.AutomaticBackupService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+        
+        <!-- Service for update checks -->
+        <service
+            android:name=".core.UpdateService"
+            android:exported="false"
+            android:foregroundServiceType="networkUsage" />
+        
+        <!-- ==================================================================== -->
+        <!-- Receivers -->
+        <!-- ==================================================================== -->
+        
+        <!-- Boot complete receiver -->
+        <receiver
+            android:name=".core.BootCompleteReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- Package replaced receiver -->
+        <receiver
+            android:name=".core.PackageReplacedReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- ==================================================================== -->
+        <!-- Providers -->
+        <!-- ==================================================================== -->
+        
+        <!-- Documents provider -->
+        <provider
+            android:name=".core.ClineDocumentsProvider"
+            android:authorities="${applicationId}.documents"
+            android:enabled="true"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS">
+            <meta-data
+                android:name="android.support.DOCUMENTS_PROVIDER"
+                android:resource="@xml/documents_provider" />
+        </provider>
+        
+        <!-- Shizuku provider -->
+        <provider
+            android:name="dev.rikka.shizuku.provider.ShizukuProvider"
+            android:authorities="${applicationId}.shizuku"
+            android:enabled="true"
+            android:exported="true" />
+        
+        <!-- ==================================================================== -->
+        <!-- Activities (UI) -->
+        <!-- ==================================================================== -->
+        
+        <!-- Settings Activity -->
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:exported="false"
+            android:label="@string/settings_title"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Theme.Cline" />
+        
+        <!-- Terminal Activity -->
+        <activity
+            android:name=".ui.TerminalActivity"
+            android:exported="false"
+            android:label="@string/terminal_title"
+            android:parentActivityName=".ui.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Cline" />
+        
+        <!-- Chat Activity -->
+        <activity
+            android:name=".ui.ChatActivity"
+            android:exported="false"
+            android:label="@string/chat_title"
+            android:parentActivityName=".ui.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Cline" />
+        
+        <!-- Plugins Activity -->
+        <activity
+            android:name=".ui.PluginsActivity"
+            android:exported="false"
+            android:label="@string/plugins_title"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Theme.Cline" />
+        
+        <!-- Backup Activity -->
+        <activity
+            android:name=".ui.BackupActivity"
+            android:exported="false"
+            android:label="@string/backup_title"
+            android:parentActivityName=".ui.SettingsActivity"
+            android:theme="@style/Theme.Cline" />
+        
+        <!-- Plugin Install Activity -->
+        <activity
+            android:name=".ui.PluginInstallActivity"
+            android:exported="false"
+            android:label="Install Plugin"
+            android:parentActivityName=".ui.PluginsActivity"
+            android:theme="@style/Theme.Cline" />
+        
+        <!-- Plugin Detail Activity -->
+        <activity
+            android:name=".ui.PluginDetailActivity"
+            android:exported="false"
+            android:label="Plugin Details"
+            android:parentActivityName=".ui.PluginsActivity"
+            android:theme="@style/Theme.Cline" />
+        
+        <!-- Chat Detail Activity -->
+        <activity
+            android:name=".ui.ChatDetailActivity"
+            android:exported="false"
+            android:label="Chat"
+            android:parentActivityName=".ui.ChatActivity"
+            android:theme="@style/Theme.Cline" />
+        
+        <!-- Recovery Activity -->
+        <activity
+            android:name=".ui.RecoveryActivity"
+            android:exported="false"
+            android:label="Recovery"
+            android:theme="@style/Theme.Cline" />
+        
+        <!-- Extract Activity -->
+        <activity
+            android:name=".ui.ExtractActivity"
+            android:exported="false"
+            android:label="Preparing Environment"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Cline" />
+        
+        <!-- ==================================================================== -->
+        <!-- Meta Data -->
+        <!-- ==================================================================== -->
+        
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
+        
+        <meta-data
+            android:name="android.app.android.min_compact_overlay_duration"
+            android:value="1000" />
+        
+        <!-- ==================================================================== -->
+        <!-- Network Security -->
+        <!-- ==================================================================== -->
+        
+        <meta-data
+            android:name="android.networkSecurityConfig"
+            android:resource="@xml/network_security_config" />
+    </application>
+    
+    <!-- ==================================================================== -->
+    <!-- Permissions -->
+    <!-- ==================================================================== -->
+    
+    <!-- Storage permissions -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    
+    <!-- Network permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    
+    <!-- Local network permission (Android 12+) -->
+    <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK" />
+    
+    <!-- Foreground service permissions -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_NETWORK_USAGE" />
+    
+    <!-- Notification permission (Android 13+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    
+    <!-- Audio permissions (for voice input) -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    
+    <!-- Camera permission (for visual input) -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    
+    <!-- Vibration permission -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    
+    <!-- Wake lock permission -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    
+    <!-- Shizuku permissions -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
+    
+    <!-- ==================================================================== -->
+    <!-- Features -->
+    <!-- ==================================================================== -->
+    
+    <!-- Network features -->
+    <uses-feature android:name="android.hardware.type.wifi" android:required="false" />
+    <uses-feature android:name="android.hardware.type.ethernet" android:required="false" />
+    
+    <!-- Audio features -->
+    <uses-feature android:name="android.hardware.microphone" android:required="false" />
+    
+    <!-- Camera features -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    
+    <!-- ==================================================================== -->
+    <!-- SDK Requirements -->
+    <!-- ==================================================================== -->
+    
+    <uses-sdk android:minSdkVersion="30" android:targetSdkVersion="37" />
+    
+    <!-- ==================================================================== -->
+    <!-- Screen Support -->
+    <!-- ==================================================================== -->
+    
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+    
+    <compatible-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+</manifest>

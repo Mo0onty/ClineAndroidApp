@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- strings.xml - All string resources for Cline Android -->
+<resources>
+    <!-- ==================================================================== -->
+    <!-- App Information -->
+    <!-- ==================================================================== -->
+    
+    <string name="app_name">Cline</string>
+    <string name="app_full_name">Cline AI Coding Agent</string>
+    <string name="app_description">Your AI coding agent for Android</string>
+    <string name="app_version">1.0.0</string>
+    
+    <!-- ==================================================================== -->
+    <!-- General -->
+    <!-- ==================================================================== -->
+    
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="done">Done</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="share">Share</string>
+    <string name="copy">Copy</string>
+    <string name="paste">Paste</string>
+    <string name="clear">Clear</string>
+    <string name="refresh">Refresh</string>
+    <string name="search">Search</string>
+    <string name="more">More</string>
+    <string name="settings">Settings</string>
+    <string name="help">Help</string>
+    <string name="about">About</string>
+    
+    <!-- ==================================================================== -->
+    <!-- Actions -->
+    <!-- ==================================================================== -->
+    
+    <string name="action_new">New</string>
+    <string name="action_create">Create</string>
+    <string name="action_open">Open</string>
+    <string name="action_close">Close</string>
+    <string name="action_start">Start</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_restart">Restart</string>
+    <string name="action_install">Install</string>
+    <string name="action_uninstall">Uninstall</string>
+    <string name="action_enable">Enable</string>
+    <string name="action_disable">Disable</string>
+    <string name="action_update">Update</string>
+    <string name="action_export">Export</string>
+    <string name="action_import">Import</string>
+    <string name="action_backup">Backup</string>
+    <string name="action_restore">Restore</string>
+    <string name="action_send">Send</string>
+    <string name="action_execute">Execute</string>
+    <string name="action_run">Run</string>
+    
+    <!-- ==================================================================== -->
+    <!-- Welcome/Onboarding -->
+    <!-- ==================================================================== -->
+    
+    <string name="welcome_title">Welcome to Cline</string>
+    <string name="welcome_subtitle">Your AI Coding Agent</string>
+    <string name="welcome_description">Write, debug, and understand code faster with intelligent AI assistance.
+    
+    Start a new conversation with Cline to get coding assistance.</string>
+    <string name="welcome_get_started">Get Started</string>
+    
+    <!-- Onboarding pages -->
+    <string name="onboarding_welcome_title">Welcome to Cline</string>
+    <string name="onboarding_welcome_desc">Your AI coding agent is ready to help you write, debug, and understand code faster than ever.</string>
+    
+    <string name="onboarding_intelligent_title">Intelligent Assistance</string>
+    <string name="onboarding_intelligent_desc">Get smart code completions, explanations, and suggestions powered by advanced AI models.</string>
+    
+    <string name="onboarding_environment_title">Full Development Environment</string>
+    <string name="onboarding_environment_desc">Complete with terminal, file browser, and plugin system - everything you need in one app.</string>
+    
+    <string name="onboarding_get_started">Get Started</string>
+    
+    <!-- ==================================================================== -->
+    <!-- Main Screen -->
+    <!-- ==================================================================== -->
+    
+    <string name="main_title">Cline</string>
+    <string name="main_subtitle">Your AI coding agent</string>
+    <string name="main_quick_actions">Quick Actions</string>
+    <string name="main_recent">Recent</string>
+    <string name="main_no_recent">No recent items yet</string>
+    
+    <!-- Action cards -->
+    <string name="action_new_chat">New Chat</string>
+    <string name="action_new_chat_desc">Start a conversation with Cline</string>
+    <string name="action_terminal">Terminal</string>
+    <string name="action_terminal_desc">Open terminal session</string>
+    <string name="action_plugins">Plugins</string>
+    <string name="action_plugins_desc">Browse and install plugins</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_settings_desc">Configure app preferences</string>
+    
+    <!-- Dashboard -->
+    <string name="dashboard_welcome">Welcome back!</string>
+    <string name="dashboard_recent_chats">Recent Chats</string>
+    <string name="dashboard_quick_actions">Quick Actions</string>
+    <string name="dashboard_no_chats">No recent chats yet</string>
+    <string name="dashboard_no_chats_desc">Start a new chat to see it here</string>
+    
+    <!-- ==================================================================== -->
+    <!-- Chat -->
+    <!-- ==================================================================== -->
+    
+    <string name="chat_title">Chat</string>
+    <string name="chat_new">New Chat</string>
+    <string name="chat_placeholder">Type a message...</string>
+    <string name="chat_send">Send</string>
+    <string name="chat_typing">Cline is typing...</string>
+    <string name="chat_no_messages">No messages yet</string>
+    <string name="chat_start_conversation">Start a conversation</string>
+    
+    <!-- Chat messages -->
+    <string name="chat_message_you">You</string>
+    <string name="chat_message_cline">Cline</string>
+    <string name="chat_message_system">System</string>
+    
+    <!-- Chat actions -->
+    <string name="chat_action_copy">Copy</string>
+    <string name="chat_action_delete">Delete</string>
+    <string name="chat_action_favorite">Favorite</string>
+    <string name="chat_action_unfavorite">Unfavorite</string>
+    <string name="chat_action_share">Share</string>
+    
+    <!-- Chat suggestions -->
+    <string name="chat_suggestion_write">Write a function</string>
+    <string name="chat_suggestion_debug">Debug my code</string>
+    <string name="chat_suggestion_explain">Explain this code</string>
+    <string name="chat_suggestion_optimize">Optimize this</string>
+    
+    <!-- ==================================================================== -->
+    <!-- Terminal -->
+    <!-- ==================================================================== -->
+    
+    <string name="terminal_title">Terminal</string>
+    <string name="terminal_new_session">New Session</string>
+    <string name="terminal_placeholder">Enter command...</string>
+    <string name="terminal_execute">Execute</string>
+    <string name="terminal_welcome">Welcome to Cline Terminal</string>
+    <string name="terminal_help">Type \'help\' for available commands</string>
+    <string name="terminal_no_session">No terminal session</string>
+    <string name="terminal_no_session_desc">Start a new terminal session to run commands in the Cline environment.</string>
+    
+    <!-- Terminal actions -->
+    <string name="terminal_action_new">New</string>
+    <string name="terminal_action_clear">Clear</string>
+    <string name="terminal_action_settings">Settings</string>
+    <string name="terminal_action_copy">Copy</string>
+    <string name="terminal_action_paste">Paste</string>
+    
+    <!-- Terminal menu -->
+    <string name="terminal_menu_new_session">New Session</string>
+    <string name="terminal_menu_clear">Clear Terminal</string>
+    <string name="terminal_menu_settings">Terminal Settings</string>
+    
+    <!-- ==================================================================== -->
+    <!-- Plugins -->
+    <!-- ==================================================================== -->
+    
+    <string name="plugins_title">Plugins</string>
+    <string name="plugins_subtitle">Extend Cline functionality</string>
+    <string name="plugins_no_plugins">No plugins found</string>
+    <string name="plugins_no_plugins_desc">Try refreshing the plugin list or check your connection.</string>
+    <string name="plugins_refresh">Refresh</string>
+    <string name="plugins_search">Search plugins...</string>
+    <string name="plugins_found">%d plugins found</string>
+    
+    <!-- Plugin categories -->
+    <string name="plugin_category_all">All</string>
+    <string name="plugin_category_ai">AI</string>
+    <string name="plugin_category_terminal">Terminal</string>
+    <string name="plugin_category_editor">Editor</string>
+    <string name="plugin_category_utility">Utility</string>
+    <string name="plugin_category_theme">Themes</string>
+    <string name="plugin_category_language">Languages</string>
+    <string name="plugin_category_other">Other</string>
+    
+    <!-- Plugin states -->
+    <string name="plugin_state_not_installed">Not Installed</string>
+    <string name="plugin_state_installed">Installed</string>
+    <string name="plugin_state_enabled">Enabled</string>
+    <string name="plugin_state_disabled">Disabled</string>
+    <string name="plugin_state_updatable">Update Available</string>
+    
+    <!-- Plugin actions -->
+    <string name="plugin_action_install">Install</string>
+    <string name="plugin_action_uninstall">Uninstall</string>
+    <string name="plugin_action_enable">Enable</string>
+    <string name="plugin_action_disable">Disable</string>
+    <string name="plugin_action_update">Update</string>
+    <string name="plugin_action_favorite">Favorite</string>
+    <string name="plugin_action_details">Details</string>
+    
+    <!-- Plugin detail -->
+    <string name="plugin_detail_title">Plugin Details</string>
+    <string name="plugin_detail_version">Version %s</string>
+    <string name="plugin_detail_author">by %s</string>
+    <string name="plugin_detail_category">Category: %s</string>
+    <string name="plugin_detail_description">Description</string>
+    <string name="plugin_detail_status">Status</string>
+    
+    <!-- ==================================================================== -->
+    <!-- Settings -->
+    <!-- ==================================================================== -->
+    
+    <string name="settings_title">Settings</string>
+    <string name="settings_subtitle">Configure Cline</string>
+    
+    <!-- Settings categories -->
+    <string name="settings_category_appearance">Appearance</string>
+    <string name="settings_category_runtime">Runtime</string>
+    <string name="settings_category_api">API Keys</string>
+    <string name="settings_category_backup">Backup &amp; Restore</string>
+    <string name="settings_category_about">About</string>
+    
+    <!-- Appearance settings -->
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_description">Dark, Light, or System</string>
+    <string name="settings_dynamic_color">Dynamic Color</string>
+    <string name="settings_dynamic_color_description">Use system accent color</string>
+    <string name="settings_font_size">Font Size</string>
+    <string name="settings_font_size_description">Adjust text size</string>
+    
+    <!-- Theme options -->
+    <string name="theme_option_system">System</string>
+    <string name="theme_option_light">Light</string>
+    <string name="theme_option_dark">Dark</string>
+    
+    <!-- Runtime settings -->
+    <string name="settings_model">AI Model</string>
+    <string name="settings_model_description">Select AI model</string>
+    <string name="settings_runtime_version">Runtime Version</string>
+    <string name="settings_runtime_version_description">Cline runtime version</string>
+    <string name="settings_storage">Storage Location</string>
+    <string name="settings_storage_description">Where runtime files are stored</string>
+    
+    <!-- API settings -->
+    <string name="settings_api_key">API Key</string>
+    <string name="settings_api_key_description">Configure your API key</string>
+    <string name="settings_authentication">Authentication</string>
+    <string name="settings_authentication_description">Sign in to sync settings</string>
+    
+    <!-- Backup settings -->
+    <string name="settings_backup">Create Backup</string>
+    <string name="settings_backup_description">Backup your data</string>
+    <string name="settings_restore">Restore Backup</string>
+    <string name="settings_restore_description">Restore from backup</string>
+    <string name="settings_auto_backup">Auto Backup</string>
+    <string name="settings_auto_backup_description">Automatically backup on exit</string>
+    
+    <!-- About settings -->
+    <string name="settings_version">Version</string>
+    <string name="settings_version_description">%s</string>
+    <string name="settings_documentation">Documentation</string>
+    <string name="settings_documentation_description">View documentation</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_feedback_description">Send feedback</string>
+    
+    <!-- ==================================================================== -->
+    <!-- Backup -->
+    <!-- ==================================================================== -->
+    
+    <string name="backup_title">Backup &amp; Restore</string>
+    <string name="backup_subtitle">Manage your data</string>
+    <string name="backup_create">Create Backup</string>
+    <string name="backup_export">Export</string>
+    <string name="backup_restore">Restore</string>
+    <string name="backup_delete">Delete</string>
+    <string name="backup_no_backups">No backups yet</string>
+    <string name="backup_no_backups_desc">Create a backup to save your Cline configuration, chats, and plugins.</string>
+    <string name="backup_found">%d backups</string>
+    
+    <!-- Create backup -->
+    <string name="backup_create_title">Create Backup</string>
+    <string name="backup_name_hint">Backup Name</string>
+    <string name="backup_name_placeholder">My Backup - %s</string>
+    <string name="backup_description_hint">Description (Optional)</string>
+    <string name="backup_description_placeholder">Brief description of what\'s included</string>
+    <string name="backup_create_button">Create</string>
+    
+    <!-- Restore backup -->
+    <string name="backup_restore_title">Restore Backup</string>
+    <string name="backup_restore_confirm">Restore</string>
+    <string name="backup_restore_warning">This will overwrite your current data. This action cannot be undone.</string>
+    
+    <!-- Delete backup -->
+    <string name="backup_delete_title">Delete Backup</string>
+    <string name="backup_delete_confirm">Are you sure you want to delete "%s"?</string>
+    <string name="backup_delete_warning">This action cannot be undone.</string>
+    
+    <!-- Backup status -->
+    <string name="backup_status_ready">Ready</string>
+    <string name="backup_status_creating">Creating...</string>
+    <string name="backup_status_restoring">Restoring...</string>
+    <string name="backup_status_deleting">Deleting...</string>
+    <string name="backup_status_error">Error</string>
+    <string name="backup_status_success">Success!</string>
+    
+    <!-- ==================================================================== -->
+    <!-- API Key -->
+    <!-- ==================================================================== -->
+    
+    <string name="api_key_title">API Key</string>
+    <string name="api_key_description">Configure your API key for accessing Cline services.</string>
+    <string name="api_key_hint">API Key</string>
+    <string name="api_key_placeholder">Enter your API key</string>
+    <string name="api_key_show">Show key</string>
+    <string name="api_key_hide">Hide key</string>
+    <string name="api_key_save">Save API Key</string>
+    <string name="api_key_need">Need an API key?</string>
+    <string name="api_key_get">Get your API key from the Cline website</string>
+    
+    <!-- ==================================================================== -->
+    <!-- Runtime -->
+    <!-- ==================================================================== -->
+    
+    <string name="runtime_title">Runtime</string>
+    <string name="runtime_starting">Starting runtime...</string>
+    <string name="runtime_stopping">Stopping runtime...</string>
+    <string name="runtime_error">Runtime error</string>
+    <string name="runtime_not_available">Runtime not available</string>
+    <string name="runtime_proot_not_found">proot not found</string>
+    <string name="runtime_rootfs_missing">Root filesystem missing</string>
+    
+    <!-- ==================================================================== -->
+    <!-- Errors -->
+    <!-- ==================================================================== -->
+    
+    <string name="error_title">Error</string>
+    <string name="error_unknown">Unknown error</string>
+    <string name="error_connection">Connection error</string>
+    <string name="error_timeout">Request timeout</string>
+    <string name="error_permission">Permission denied</string>
+    <string name="error_storage">Insufficient storage</string>
+    <string name="error_not_found">Not found</string>
+    <string name="error_invalid_input">Invalid input</string>
+    
+    <!-- ==================================================================== -->
+    <!-- Messages -->
+    <!-- ==================================================================== -->
+    
+    <string name="message_loading">Loading...</string>
+    <string name="message_processing">Processing...</string>
+    <string name="message_waiting">Please wait...</string>
+    <string name="message_complete">Complete!</string>
+    <string name="message_success">Success!</string>
+    <string name="message_failed">Failed</string>
+    
+    <!-- ==================================================================== -->
+    <!-- Time -->
+    <!-- ==================================================================== -->
+    
+    <string name="time_just_now">Just now</string>
+    <string name="time_minutes_ago">%d minutes ago</string>
+    <string name="time_hour_ago">1 hour ago</string>
+    <string name="time_hours_ago">%d hours ago</string>
+    <string name="time_day_ago">1 day ago</string>
+    <string name="time_days_ago">%d days ago</string>
+    <string name="time_week_ago">1 week ago</string>
+    <string name="time_weeks_ago">%d weeks ago</string>
+    <string name="time_month_ago">1 month ago</string>
+    <string name="time_months_ago">%d months ago</string>
+    <string name="time_year_ago">1 year ago</string>
+    <string name="time_years_ago">%d years ago</string>
+    
+    <!-- ==================================================================== -->
+    <!-- File Sizes -->
+    <!-- ==================================================================== -->
+    
+    <string name="size_bytes">%d B</string>
+    <string name="size_kb">%.2f KB</string>
+    <string name="size_mb">%.2f MB</string>
+    <string name="size_gb">%.2f GB</string>
+    
+    <!-- ==================================================================== -->
+    <!-- Models -->
+    <!-- ==================================================================== -->
+    
+    <string name="model_cline">Cline</string>
+    <string name="model_cline_pro">Cline Pro</string>
+    <string name="model_custom">Custom</string>
+    
+    <!-- ==================================================================== -->
+    <!-- Accessibility -->
+    <!-- ==================================================================== -->
+    
+    <string name="accessibility_back">Back</string>
+    <string name="accessibility_settings">Settings</string>
+    <string name="accessibility_search">Search</string>
+    <string name="accessibility_send">Send message</string>
+    <string name="accessibility_new_chat">New chat</string>
+    <string name="accessibility_terminal">Terminal</string>
+    <string name="accessibility_plugins">Plugins</string>
+    <string name="accessibility_favorite">Toggle favorite</string>
+    <string name="accessibility_copy">Copy to clipboard</string>
+    <string name="accessibility_delete">Delete</string>
+    <string name="accessibility_share">Share</string>
+</resources>

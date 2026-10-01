@@ -1,0 +1,230 @@
+// App build.gradle - Kotlin + Compose + MD3 Expressive
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlinx.serialization'
+}
+
+android {
+    namespace 'com.cline.app'
+    compileSdk 37
+
+    ndkVersion '26.3.11579264'
+
+    defaultConfig {
+        applicationId "com.cline.app"
+        minSdk 30
+        targetSdk 37
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters 'arm64-v8a'
+        }
+
+        multiDexEnabled true
+    }
+
+    flavorDimensions 'androidSupport'
+    productFlavors {
+        standard {
+            dimension 'androidSupport'
+            minSdk 30
+            buildConfigField 'boolean', 'LOW_ANDROID', 'false'
+        }
+        low {
+            dimension 'androidSupport'
+            minSdk 23
+            versionNameSuffix '-low'
+            buildConfigField 'boolean', 'LOW_ANDROID', 'true'
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+
+        release {
+            storeFile System.getenv("CLINE_KEYSTORE") ?: file('../cline-release.keystore')
+            storePassword System.getenv("CLINE_KEYSTORE_PASSWORD") ?: 'android'
+            keyAlias System.getenv("CLINE_KEY_ALIAS") ?: 'cline-release'
+            keyPassword System.getenv("CLINE_KEY_PASSWORD") ?: 'android'
+
+            enableV1Signing true
+            enableV2Signing true
+            enableV3Signing true
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+        freeCompilerArgs += ['-Xjsr305=strict']
+    }
+
+    buildFeatures {
+        compose true
+        viewBinding true
+        resValues true
+        buildConfig true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.5.3'
+    }
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+            keepDebugSymbols += ['**/libproot.so', '**/libprootloader.so', '**/libtermux.so']
+            pickFirsts += ['**/libtermux.so']
+            excludes += ['**/x86/**', '**/x86_64/**', '**/armeabi/**', '**/armeabi-v7a/**']
+        }
+    }
+
+    androidResources {
+        noCompress += ['gz', 'xz', 'bin', 'ja', 'tar', 'whl']
+    }
+
+    sourceSets {
+        main {
+            assets.srcDirs = [
+                "$buildDir/generated/standardAssets",
+                "$buildDir/generated/recoveryAssets"
+            ]
+            java.srcDir "$buildDir/generated/uiLanguage"
+        }
+    }
+}
+
+// Custom tasks for asset preparation
+def prepareStandardAssets = tasks.register("prepareStandardAssets", Exec) {
+    inputs.dir("src/main/assets")
+    inputs.file(rootProject.file("tools/prepare-assets.py"))
+    inputs.file(rootProject.file("tools/prepare-web-compat.mjs"))
+    inputs.files(rootProject.files("tools/web-compat/entry.cjs", "tools/web-compat/package.json"))
+    inputs.file(rootProject.file("tools/build-cline-runtime.py"))
+    inputs.dir(rootProject.file("tools/cline-runtime"))
+
+    outputs.dir(layout.buildDirectory.dir("generated/standardAssets"))
+    outputs.file(layout.buildDirectory.file("generated/standard-assets-report.json"))
+
+    commandLine(
+        System.getenv("CLINE_PYTHON") ?: "python3", "-B",
+        rootProject.file("tools/prepare-assets.py").absolutePath,
+        "--source", file("src/main/assets").absolutePath,
+        "--output", layout.buildDirectory.dir("generated/standardAssets").get().asFile.absolutePath
+    )
+}
+
+def prepareRecoveryAssets = tasks.register("prepareRecoveryAssets", Exec) {
+    dependsOn(prepareStandardAssets)
+    inputs.file(rootProject.file("tools/prepare-recovery-assets.py"))
+    inputs.file(rootProject.file("tools/recovery-runtime/lock.json"))
+    inputs.files(
+        layout.buildDirectory.file("generated/standardAssets/offline-rootfs.bin"),
+        layout.buildDirectory.file("generated/standardAssets/cline-runtime.bin")
+    )
+
+    outputs.dir(layout.buildDirectory.dir("generated/recoveryAssets"))
+
+    commandLine(
+        System.getenv("CLINE_PYTHON") ?: "python3", "-B",
+        rootProject.file("tools/prepare-recovery-assets.py").absolutePath,
+        "--output", layout.buildDirectory.dir("generated/recoveryAssets").get().asFile.absolutePath,
+        "--shared-assets", layout.buildDirectory.dir("generated/standardAssets").get().asFile.absolutePath
+    )
+}
+
+tasks.configureEach {
+    if (name.matches("(package|validateSigning|assemble)(Standard|Low)Release")) {
+        dependsOn(prepareRecoveryAssets)
+    }
+}
+
+tasks.named("preBuild").configure {
+    dependsOn(prepareStandardAssets, prepareRecoveryAssets)
+}
+
+// Dependencies
+dependencies {
+    // Kotlin
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+
+    // Compose
+    implementation platform('androidx.compose:compose-bom:2024.02.00')
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui-graphics'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.compose.material:material-icons-extended'
+    implementation 'androidx.compose.runtime:runtime-livedata'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2'
+
+    // Navigation
+    implementation 'androidx.navigation:navigation-compose:2.7.6'
+
+    // Serialization
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0'
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
+
+    // WebView
+    implementation 'androidx.webkit:webkit:1.15.0'
+
+    // GeckoView for low flavor
+    lowImplementation 'org.mozilla.geckoview:geckoview-arm64-v8a:143.0.20251003115653'
+
+    // Shizuku
+    standardImplementation 'dev.rikka.shizuku:api:13.1.5'
+    standardImplementation 'dev.rikka.shizuku:provider:13.1.5'
+    lowImplementation 'dev.rikka.shizuku:api:12.2.0'
+    lowImplementation 'dev.rikka.shizuku:provider:12.2.0'
+
+    // Terminal
+    implementation 'com.termux.termux-app:terminal-view:0.118.0'
+
+    // Security
+    implementation 'com.google.code.gson:gson:2.13.1'
+    implementation 'org.bouncycastle:bcprov-jdk15to18:1.85.2'
+
+    // Pager for onboarding
+    implementation 'com.google.accompanist:accompanist-pager:0.32.0'
+
+    // Testing
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'
+    testImplementation 'androidx.arch.core:core-testing:2.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.5.4'
+}
