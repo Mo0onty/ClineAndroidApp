@@ -1,5 +1,5 @@
 // TerminalProcess.kt - Terminal Process Management
-package com.cline.app.runtime
+package com.cline.app.core
 
 import android.util.Log
 import java.io.BufferedReader

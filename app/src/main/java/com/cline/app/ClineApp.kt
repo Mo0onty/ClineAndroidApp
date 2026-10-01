@@ -15,9 +15,9 @@ import com.cline.app.core.ConfigStore
 import com.cline.app.core.EnvironmentAccess
 import com.cline.app.core.RuntimeHostPorts
 import com.cline.app.data.KeyVault
-import com.cline.app.runtime.ContainerRuntime
-import com.cline.app.runtime.ProotBootstrap
-import com.cline.app.runtime.WebProcessManager
+import com.cline.app.core.ContainerRuntime
+import com.cline.app.core.ProotBootstrap
+import com.cline.app.core.WebProcessManager
 import com.cline.app.util.Constants
 import com.cline.app.util.ForegroundActivity
 import com.cline.app.util.SystemLanguage
