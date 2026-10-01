@@ -56,6 +56,8 @@ sealed class Screen(val route: String) {
     object Plugins : Screen("plugins")
     object Settings : Screen("settings")
     object Backup : Screen("backup")
+    object FileBrowser : Screen("file_browser")
+    object VoiceInput : Screen("voice_input")
 }
 
 /**
@@ -238,6 +240,28 @@ fun ClineNavHost(
         // Backup screen
         composable(Screen.Backup.route) {
             BackupScreen(
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        // File Browser screen
+        composable(Screen.FileBrowser.route) {
+            FileBrowserScreen(
+                onFileSelected = { file ->
+                    // Handle file selection (e.g., open in chat or terminal)
+                    navController.popBackStack()
+                },
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        // Voice Input screen
+        composable(Screen.VoiceInput.route) {
+            VoiceInputScreen(
+                onTranscriptReady = { transcript ->
+                    // Send transcript to chat
+                    navController.popBackStack()
+                },
                 onBack = { navController.popBackStack() }
             )
         }
