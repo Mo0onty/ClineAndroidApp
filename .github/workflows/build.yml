@@ -226,10 +226,17 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
+      - name: Create keystore directory
+        run: mkdir -p keystore
+
+      - name: Decode keystore from base64
+        run: |
+          echo "${{ secrets.CLINE_KEYSTORE_BASE64 }}" | base64 --decode > keystore/cline-release.keystore
+
       - name: Build release APK
         run: ./gradlew :app:assembleStandardRelease
         env:
-          CLINE_KEYSTORE: ${{ secrets.CLINE_KEYSTORE }}
+          CLINE_KEYSTORE: keystore/cline-release.keystore
           CLINE_KEYSTORE_PASSWORD: ${{ secrets.CLINE_KEYSTORE_PASSWORD }}
           CLINE_KEY_ALIAS: ${{ secrets.CLINE_KEY_ALIAS }}
           CLINE_KEY_PASSWORD: ${{ secrets.CLINE_KEY_PASSWORD }}
